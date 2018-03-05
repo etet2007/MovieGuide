@@ -26,6 +26,7 @@ android {
         versionCode 1
         versionName "1.0"
 
+//      use getProperty method to get the value of TMDB_API_KEY and
         buildConfigField "String", "TMDB_API_KEY", "\"${getProperty("local.properties", "tmdb_api_key")}\""
         buildConfigField "String", "TMDB_BASE_URL", "\"http://api.themoviedb.org/\""
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -79,13 +80,13 @@ dependencies {
 
     // Other
     implementation 'net.jcip:jcip-annotations:1.0'
-    implementation 'com.squareup.moshi:moshi:1.1.0'
+    implementation 'com.squareup.moshi:moshi:1.1.0' //JSON
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     // Dependency Injection
-    annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
     implementation "com.google.dagger:dagger:${daggerVersion}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
     compileOnly 'javax.annotation:jsr250-api:1.0'
 
     // Retrofit 2

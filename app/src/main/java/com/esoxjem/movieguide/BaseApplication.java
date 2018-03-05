@@ -25,6 +25,7 @@ public class BaseApplication extends Application
     {
         super.onCreate();
         StrictMode.enableDefaults();
+        //dagger
         appComponent = createAppComponent();
     }
 
@@ -37,6 +38,8 @@ public class BaseApplication extends Application
                 .build();
     }
 
+
+//  DetailsComponent
     public DetailsComponent createDetailsComponent()
     {
         detailsComponent = appComponent.plus(new DetailsModule());
@@ -48,6 +51,8 @@ public class BaseApplication extends Application
         detailsComponent = null;
     }
 
+
+//  ListingComponent
     public ListingComponent createListingComponent()
     {
         listingComponent = appComponent.plus(new ListingModule());

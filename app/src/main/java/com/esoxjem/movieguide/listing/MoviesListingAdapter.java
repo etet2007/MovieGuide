@@ -32,8 +32,9 @@ import butterknife.ButterKnife;
 public class MoviesListingAdapter extends RecyclerView.Adapter<MoviesListingAdapter.ViewHolder> {
     private List<Movie> movies;
     private Context context;
-    private MoviesListingView view;
+    private MoviesListingView view; //interface
 
+    // Provide a reference to the views for each data item  内部类ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.movie_poster)
         ImageView poster;
@@ -44,7 +45,7 @@ public class MoviesListingAdapter extends RecyclerView.Adapter<MoviesListingAdap
 
         public Movie movie;
 
-        public ViewHolder(View root) {
+        public ViewHolder(View root) { //传入root而已
             super(root);
             ButterKnife.bind(this, root);
         }
@@ -56,11 +57,13 @@ public class MoviesListingAdapter extends RecyclerView.Adapter<MoviesListingAdap
     }
 
     public MoviesListingAdapter(List<Movie> movies, MoviesListingView moviesView) {
+        //提供data set
         this.movies = movies;
         view = moviesView;
     }
 
     @Override
+    // Create new views (invoked by the layout manager)
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         View rootView = LayoutInflater.from(context).inflate(R.layout.movie_grid_item, parent, false);
@@ -68,12 +71,14 @@ public class MoviesListingAdapter extends RecyclerView.Adapter<MoviesListingAdap
         return new ViewHolder(rootView);
     }
 
+    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.itemView.setOnClickListener(holder);
         holder.movie = movies.get(position);
         holder.name.setText(holder.movie.getTitle());
 
+        //使用Glide，包含了加载图片的步骤。
         RequestOptions options = new RequestOptions()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
@@ -87,6 +92,7 @@ public class MoviesListingAdapter extends RecyclerView.Adapter<MoviesListingAdap
                     @Override
                     public void onResourceReady(Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
                         super.onResourceReady(bitmap, transition);
+                        //lambda表达式
                         Palette.from(bitmap).generate(palette -> setBackgroundColor(palette, holder));
                     }
                 });

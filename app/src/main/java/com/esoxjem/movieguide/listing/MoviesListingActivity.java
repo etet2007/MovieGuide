@@ -24,7 +24,7 @@ public class MoviesListingActivity extends AppCompatActivity implements MoviesLi
 
         if (findViewById(R.id.movie_details_container) != null) {
             twoPaneMode = true;
-
+            // 如果有savedInstanceState则不进行处理
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.movie_details_container, new MovieDetailsFragment())
@@ -51,6 +51,7 @@ public class MoviesListingActivity extends AppCompatActivity implements MoviesLi
         return true;
     }
 
+//    Callback
     @Override
     public void onMoviesLoaded(Movie movie) {
         if (twoPaneMode) {
@@ -83,4 +84,5 @@ public class MoviesListingActivity extends AppCompatActivity implements MoviesLi
                 .replace(R.id.movie_details_container, movieDetailsFragment, DETAILS_FRAGMENT)
                 .commit();
     }
+//   Callback end
 }
