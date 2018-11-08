@@ -71,6 +71,16 @@ public class MoviesListingFragment extends Fragment implements MoviesListingView
         View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         initLayoutReferences();
+        moviesListing.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (!recyclerView.canScrollVertically(1)) {
+                    moviesPresenter.nextPage();
+                }
+            }
+        });
         return rootView;
     }
 
@@ -79,6 +89,7 @@ public class MoviesListingFragment extends Fragment implements MoviesListingView
     // before any saved state has been restored in to the view.
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        moviesPresenter.setView(this);
         if (savedInstanceState != null) {//曾经被回收过
             movies = savedInstanceState.getParcelableArrayList(Constants.MOVIE);
             adapter.notifyDataSetChanged();//notifyDataSetChanged 我习惯叫做refresh。。
@@ -92,8 +103,12 @@ public class MoviesListingFragment extends Fragment implements MoviesListingView
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sort:
+<<<<<<<
                 moviesPresenter.setView(this);
                 // 打开一个 SortingDialogFragment
+=======
+                moviesPresenter.firstPage();
+>>>>>>>
                 displaySortingOptions();
         }
 
@@ -173,6 +188,13 @@ public class MoviesListingFragment extends Fragment implements MoviesListingView
         outState.putParcelableArrayList(Constants.MOVIE, (ArrayList<? extends Parcelable>) movies);
     }
 
+    public void searchViewClicked(String searchText){
+        moviesPresenter.searchMovie(searchText);
+    }
+
+    public void searchViewBackButtonClicked() {
+        moviesPresenter.searchMovieBackPressed();
+    }
 
     public interface Callback {
         void onMoviesLoaded(Movie movie);

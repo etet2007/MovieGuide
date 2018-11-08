@@ -11,6 +11,8 @@ import com.esoxjem.movieguide.listing.ListingModule;
 import com.esoxjem.movieguide.network.NetworkModule;
 import com.esoxjem.movieguide.listing.sorting.SortingModule;
 
+import io.realm.Realm;
+
 /**
  * @author arun
  */
@@ -25,7 +27,11 @@ public class BaseApplication extends Application
     {
         super.onCreate();
         StrictMode.enableDefaults();
+
         //dagger
+
+        initRealm();
+
         appComponent = createAppComponent();
     }
 
@@ -40,6 +46,11 @@ public class BaseApplication extends Application
 
 
 //  DetailsComponent
+
+    private void initRealm(){
+        Realm.init(this);
+    }
+
     public DetailsComponent createDetailsComponent()
     {
         detailsComponent = appComponent.plus(new DetailsModule());
